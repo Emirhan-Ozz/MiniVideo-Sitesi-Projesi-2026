@@ -1,0 +1,77 @@
+CREATE DATABASE IF NOT EXISTS minivideo_db CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci;
+USE minivideo_db;
+
+CREATE TABLE Users (
+    UserID    INT           AUTO_INCREMENT PRIMARY KEY,
+    Username  VARCHAR(50)   NOT NULL UNIQUE,
+    Email     VARCHAR(100)  NOT NULL UNIQUE,
+    Password  VARCHAR(255)  NOT NULL,
+    Role      VARCHAR(20)   NOT NULL DEFAULT 'user',
+    CreatedAt DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (Role IN ('admin', 'user'))
+);
+
+CREATE TABLE Categories (
+    CategoryID   INT         AUTO_INCREMENT PRIMARY KEY,
+    CategoryName VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Videos (
+    VideoID      INT           AUTO_INCREMENT PRIMARY KEY,
+    Title        VARCHAR(200)  NOT NULL,
+    Description  TEXT          NULL,
+    VideoURL     VARCHAR(500)  NOT NULL,
+    ThumbnailURL VARCHAR(500)  NULL,
+    CategoryID   INT           NULL,
+    UploaderID   INT           NOT NULL,
+    ViewCount    INT           NOT NULL DEFAULT 0,
+    CreatedAt    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CategoryID)  REFERENCES Categories(CategoryID) ON DELETE SET NULL,
+    FOREIGN KEY (UploaderID)  REFERENCES Users(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE Video_Tags (
+    TagID   INT         AUTO_INCREMENT PRIMARY KEY,
+    VideoID INT         NOT NULL,
+    Tag     VARCHAR(50) NOT NULL,
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID) ON DELETE CASCADE
+);
+
+CREATE TABLE Comments (
+    CommentID INT      AUTO_INCREMENT PRIMARY KEY,
+    VideoID   INT      NOT NULL,
+    UserID    INT      NOT NULL,
+    Content   TEXT     NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID) ON DELETE CASCADE,
+    FOREIGN KEY (UserID)  REFERENCES Users(UserID)   ON DELETE CASCADE
+);
+
+CREATE TABLE Likes (
+    LikeID    INT          AUTO_INCREMENT PRIMARY KEY,
+    VideoID   INT          NOT NULL,
+    UserID    INT          NULL,
+    GuestIP   VARCHAR(45)  NULL,
+    CreatedAt DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID) ON DELETE CASCADE,
+    FOREIGN KEY (UserID)  REFERENCES Users(UserID)   ON DELETE SET NULL
+);
+
+CREATE TABLE Watch_History (
+    HistoryID INT      AUTO_INCREMENT PRIMARY KEY,
+    VideoID   INT      NOT NULL,
+    UserID    INT      NULL,
+    WatchedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID) ON DELETE CASCADE,
+    FOREIGN KEY (UserID)  REFERENCES Users(UserID)   ON DELETE SET NULL
+);
+
+CREATE TABLE Playlists (
+    PlaylistID INT      AUTO_INCREMENT PRIMARY KEY,
+    UserID     INT      NOT NULL,
+    VideoID    INT      NOT NULL,
+    AddedAt    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (UserID, VideoID),
+    FOREIGN KEY (UserID)  REFERENCES Users(UserID)   ON DELETE CASCADE,
+    FOREIGN KEY (VideoID) REFERENCES Videos(VideoID) ON DELETE CASCADE
+);

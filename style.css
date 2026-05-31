@@ -1,0 +1,436 @@
+/* =====================================================================
+   Mini Video — NEON DARK TEMA
+   Mevcut style.css'in yerine koy (aynı klasöre at, üzerine yaz).
+   Bootstrap 5 üstüne biner; ekstra HTML/PHP değişikliği gerekmez.
+   Renk değişkenlerini :root içinden tek yerden ayarlayabilirsin.
+   ===================================================================== */
+
+:root {
+    --bg:          #0a0a12;   /* sayfa zemini   */
+    --surface:     #12121f;   /* kart zemini    */
+    --surface-2:   #1a1a2e;   /* girinti/ikincil*/
+    --border:      #262640;   /* kenarlıklar    */
+    --text:        #e8e8f0;   /* ana yazı       */
+    --text-muted:  #8a8aa3;   /* soluk yazı     */
+    --neon-pink:   #ff2d95;   /* ana neon       */
+    --neon-cyan:   #00f0ff;   /* ikincil neon   */
+    --neon-purple: #b14dff;   /* vurgu          */
+    --neon-green:  #39ff88;   /* başarı         */
+    --neon-yellow: #ffd23f;   /* uyarı          */
+}
+
+/* ── Genel ── */
+body {
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(circle at 15% 0%, rgba(177,77,255,0.10), transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(0,240,255,0.08), transparent 40%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Bootstrap açık renklerini bas */
+.bg-white       { background-color: var(--surface) !important; }
+.text-dark      { color: var(--text) !important; }
+.text-muted     { color: var(--text-muted) !important; }
+.bg-light, .alert-light { background-color: var(--surface-2) !important; color: var(--text) !important; border-color: var(--border) !important; }
+
+a { color: var(--neon-cyan); }
+a:hover { color: var(--neon-pink); }
+
+/* ── Navbar ── */
+.navbar.bg-dark {
+    background-color: rgba(10,10,18,0.92) !important;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 18px rgba(255,45,149,0.10);
+}
+.navbar-brand {
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px rgba(255,45,149,0.6);
+}
+.navbar .nav-link { color: var(--text-muted) !important; transition: color .2s, text-shadow .2s; }
+.navbar .nav-link:hover {
+    color: var(--neon-cyan) !important;
+    text-shadow: 0 0 8px rgba(0,240,255,0.7);
+}
+
+/* ── Kartlar (genel) ── */
+.card {
+    background-color: var(--surface);
+    border: 1px solid var(--border) !important;
+    color: var(--text);
+}
+.card-header.bg-dark { background-color: var(--surface-2) !important; border-bottom: 1px solid var(--border); }
+.card-footer { border-top: 1px solid var(--border); }
+
+/* ── Video Kartları ── */
+.video-card {
+    border: 1px solid var(--border) !important;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--surface);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.video-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 22px rgba(255,45,149,0.45), 0 10px 28px rgba(0,0,0,0.6);
+}
+.video-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+    background-color: var(--surface-2);
+}
+.video-card .thumbnail-placeholder {
+    height: 180px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #2a0a3e 50%, #0a1a3e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* karttaki yazı index.php'de text-dark ile sarılı; neon'a çek */
+.video-card .card-title { color: var(--text) !important;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.35;
+}
+.video-card .card-stats { font-size: 0.78rem; color: var(--text-muted); }
+.video-card .card-stats .bi-eye { color: var(--neon-cyan); }
+
+/* ── Form alanları ── */
+.form-control, .form-select {
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+.form-control::placeholder { color: #5a5a72; }
+.form-control:focus, .form-select:focus {
+    background-color: var(--surface-2);
+    color: var(--text);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 0 0.18rem rgba(0,240,255,0.25);
+}
+.form-label, dt, dd, .card-body, p, h1,h2,h3,h4,h5,h6 { color: var(--text); }
+
+/* ── Butonlar ── */
+.btn-danger {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 14px rgba(255,45,149,0.5);
+}
+.btn-danger:hover { background: #ff4da6; border-color: #ff4da6; box-shadow: 0 0 22px rgba(255,45,149,0.8); }
+.btn-outline-danger { color: var(--neon-pink); border-color: var(--neon-pink); }
+.btn-outline-danger:hover { background: var(--neon-pink); box-shadow: 0 0 16px rgba(255,45,149,0.6); }
+.btn-primary {
+    background: var(--neon-cyan); border-color: var(--neon-cyan); color: #051015;
+    box-shadow: 0 0 14px rgba(0,240,255,0.45);
+}
+.btn-primary:hover { background: #5cf6ff; border-color: #5cf6ff; color:#051015; }
+.btn-warning, .btn-outline-warning { color: var(--neon-yellow); border-color: var(--neon-yellow); }
+.btn-warning { background: transparent; box-shadow: 0 0 12px rgba(255,210,63,0.4); }
+.btn-secondary, .btn-outline-secondary { color: var(--text-muted); border-color: var(--border); background: transparent; }
+.btn-secondary:hover, .btn-outline-secondary:hover { color: var(--text); border-color: var(--neon-purple); }
+.text-danger { color: var(--neon-pink) !important; }
+.text-warning { color: var(--neon-yellow) !important; }
+
+/* ── Badge ── */
+.badge.bg-secondary { background: var(--surface-2) !important; color: var(--neon-cyan); border: 1px solid var(--border); }
+.badge-category { font-size: 0.7rem; padding: 3px 8px; border-radius: 10px; }
+
+/* ── Alert ── */
+.alert-success { background: rgba(57,255,136,0.10); border:1px solid var(--neon-green); color: var(--neon-green); }
+.alert-danger  { background: rgba(255,45,149,0.10); border:1px solid var(--neon-pink);  color: #ff7bbd; }
+.alert-info    { background: rgba(0,240,255,0.10);  border:1px solid var(--neon-cyan);  color: var(--neon-cyan); }
+
+/* ── Video Oynatıcı ── */
+.video-player-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 360px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 30px rgba(177,77,255,0.30);
+}
+
+.video-player-wrapper iframe,
+.video-player-wrapper video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Bootstrap embed/video alanları da görünür kalsın */
+iframe,
+video,
+embed,
+object {
+    max-width: 100%;
+}
+
+/* ── Yorumlar ── */
+.comment-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.comment-item:last-child { border-bottom: none; }
+.comment-author { font-weight: 600; font-size: 0.88rem; color: var(--neon-cyan); }
+.comment-date   { font-size: 0.76rem; color: var(--text-muted); margin-left: 6px; }
+.comment-content{ margin-top: 4px; font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+
+/* ── Like Butonu ── */
+#like-btn { font-size: 0.95rem; padding: 7px 18px; border-radius: 20px; transition: all 0.2s ease; }
+#like-btn:hover { transform: scale(1.06); }
+
+/* ── Admin Tablosu ── */
+.table { color: var(--text); }
+.admin-table thead th {
+    background-color: var(--surface-2);
+    color: var(--neon-cyan);
+    font-weight: 500; font-size: 0.85rem; border: none;
+}
+.admin-table tbody td { vertical-align: middle; font-size: 0.88rem; border-color: var(--border); color: var(--text); }
+.table-striped > tbody > tr:nth-of-type(odd) > * { background-color: rgba(255,255,255,0.02); color: var(--text); }
+
+/* ── Kategori Filtresi ── */
+.category-filter { max-width: 320px; }
+
+/* ── Sayfa Başlıkları ── */
+.page-title {
+    font-size: 1.5rem; font-weight: 700; color: var(--text);
+    text-shadow: 0 0 12px rgba(0,240,255,0.35);
+}
+
+/* ── Footer ── */
+footer {
+    background-color: var(--surface);
+    color: var(--text-muted);
+    padding: 22px 0; margin-top: 60px;
+    border-top: 1px solid var(--border);
+}
+
+/* ── Favori/Playlist Boş Durum ── */
+.playlist-empty { text-align: center; padding: 70px 20px; color: var(--text-muted); }
+
+/* ── Responsive ── */
+@media (max-width: 576px) {
+    .video-card .card-img-top,
+    .video-card .thumbnail-placeholder { height: 200px; }
+}
+
+
+/* ── Footer sayfanın altında kalsın ── */
+html, body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body > .container,
+body > .container-fluid {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* ── Upload thumbnail önizleme ── */
+.thumbnail-preview-box {
+    min-height: 90px;
+    padding: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.025);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* ── Admin neon düzenlemeleri ── */
+.admin-hero {
+    background: linear-gradient(135deg, rgba(255,45,149,0.09), rgba(0,240,255,0.045));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    box-shadow: 0 16px 38px rgba(0,0,0,0.28);
+}
+
+.admin-hero h2 {
+    margin: 4px 0 6px;
+    font-size: 1.65rem;
+    letter-spacing: -0.02em;
+}
+
+.admin-hero p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.admin-kicker {
+    color: var(--neon-cyan);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-glass-card {
+    background: rgba(18,18,31,0.92);
+    border: 1px solid var(--border) !important;
+    border-radius: 18px;
+    overflow: visible;
+    box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+}
+
+.admin-card-header {
+    background: rgba(26,26,46,0.95) !important;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+}
+
+.admin-card-header.success {
+    color: var(--neon-green);
+}
+
+.admin-card-header.warning {
+    color: var(--neon-yellow);
+}
+
+.admin-table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(255,255,255,0.035);
+    overflow: visible;
+}
+
+.admin-table th {
+    white-space: nowrap;
+}
+
+.admin-table td {
+    vertical-align: middle;
+}
+
+.admin-video-title {
+    color: var(--text);
+}
+
+.admin-video-title:hover {
+    color: var(--neon-cyan);
+}
+
+.admin-upload-tabs {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+.action-stat {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: default;
+    padding: 5px 8px;
+    border-radius: 999px;
+    color: var(--text);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid transparent;
+}
+
+.action-stat:hover {
+    border-color: rgba(0,240,255,0.28);
+    background: rgba(0,240,255,0.06);
+}
+
+.action-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 230px;
+    max-width: 280px;
+    z-index: 30;
+    display: none;
+    padding: 12px;
+    border-radius: 14px;
+    background: #11111d;
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 0 20px rgba(0,240,255,0.08);
+    color: var(--text);
+}
+
+.action-stat:hover .action-popover,
+.action-popover:hover {
+    display: block;
+}
+
+.action-popover strong {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--neon-cyan);
+    margin-bottom: 8px;
+}
+
+.action-user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.84rem;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.action-user-row:last-of-type {
+    border-bottom: none;
+}
+
+.action-user-row span {
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.action-user-row strong {
+    color: var(--neon-yellow);
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.show-more-users {
+    color: var(--neon-cyan) !important;
+    text-decoration: none;
+}
+
+.show-more-users:hover {
+    color: var(--neon-pink) !important;
+}
+
+@media (max-width: 768px) {
+    .admin-hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
