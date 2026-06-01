@@ -6,7 +6,6 @@ $message = '';
 $action  = $_GET['action'] ?? 'list';
 $editId  = (int)($_GET['id'] ?? 0);
 
-// Kategorileri çek
 $cats = $conn->query("SELECT * FROM Categories ORDER BY CategoryName")->fetch_all(MYSQLI_ASSOC);
 
 function admin_save_uploaded_video_file(array $file, int $userId): array {
@@ -125,7 +124,7 @@ function render_people_popover(array $people, string $emptyText): string {
     return $html;
 }
 
-// --- Video Silme ---
+
 if ($action === 'delete' && $editId > 0) {
     $del = $conn->prepare("DELETE FROM Videos WHERE VideoID = ?");
     $del->bind_param('i', $editId);
@@ -134,7 +133,7 @@ if ($action === 'delete' && $editId > 0) {
     exit;
 }
 
-// --- Video Ekleme / Güncelleme ---
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title      = trim($_POST['title'] ?? '');
     $desc       = trim($_POST['description'] ?? '');
@@ -214,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// --- Düzenleme için mevcut veri ---
+
 $editVideo = null;
 if ($action === 'edit' && $editId > 0) {
     $stmt = $conn->prepare("SELECT * FROM Videos WHERE VideoID = ?");
@@ -227,7 +226,7 @@ if ($action === 'edit' && $editId > 0) {
     }
 }
 
-// --- Tüm Videolar ---
+
 $videos = $conn->query("
     SELECT v.*, c.CategoryName, u.Username,
            (SELECT COUNT(*) FROM Likes l WHERE l.VideoID = v.VideoID) AS LikeCount,
@@ -263,7 +262,7 @@ include_once __DIR__ . '/admin_header.php';
     </a>
 </div>
 
-<!-- Form: Ekle veya Düzenle -->
+
 <div class="card admin-glass-card mb-4">
     <?php if ($editVideo): ?>
         <div class="card-header admin-card-header warning d-flex justify-content-between align-items-center">
@@ -303,7 +302,7 @@ include_once __DIR__ . '/admin_header.php';
     <?php endif; ?>
 </div>
 
-<!-- Video Tablosu -->
+
 <div class="card admin-glass-card">
     <div class="card-header admin-card-header d-flex justify-content-between align-items-center">
         <span>
@@ -418,5 +417,5 @@ document.addEventListener('click', function (e) {
 });
 </script>
 
-</div><!-- /container-fluid from admin_header.php -->
+</div>
 <?php include_once __DIR__ . '/footer.php'; ?>

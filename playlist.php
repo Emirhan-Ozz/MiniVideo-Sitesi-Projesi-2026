@@ -2,7 +2,6 @@
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/auth.php';
 
-// Favoriden kaldırma
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_video'])) {
     $vidId = (int)$_POST['remove_video'];
     $del = $conn->prepare("DELETE FROM Playlists WHERE UserID = ? AND VideoID = ?");
@@ -12,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_video'])) {
     exit;
 }
 
-// Favori listesini çek
 $stmt = $conn->prepare("
     SELECT v.*, c.CategoryName,
            (SELECT COUNT(*) FROM Likes l WHERE l.VideoID = v.VideoID) AS LikeCount,

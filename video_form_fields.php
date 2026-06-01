@@ -1,6 +1,4 @@
 <?php
-// admin.php içinden include edilen form alanları
-// $editVideo: düzenleme modunda mevcut veri, ekleme modunda null
 $fTitle = htmlspecialchars($editVideo['Title'] ?? '', ENT_QUOTES, 'UTF-8');
 $fDesc  = htmlspecialchars($editVideo['Description'] ?? '', ENT_QUOTES, 'UTF-8');
 $fUrl   = htmlspecialchars($editVideo['VideoURL'] ?? '', ENT_QUOTES, 'UTF-8');

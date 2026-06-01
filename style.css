@@ -1,10 +1,3 @@
-/* =====================================================================
-   Mini Video — NEON DARK TEMA
-   Mevcut style.css'in yerine koy (aynı klasöre at, üzerine yaz).
-   Bootstrap 5 üstüne biner; ekstra HTML/PHP değişikliği gerekmez.
-   Renk değişkenlerini :root içinden tek yerden ayarlayabilirsin.
-   ===================================================================== */
-
 :root {
     --bg:          #0a0a12;   /* sayfa zemini   */
     --surface:     #12121f;   /* kart zemini    */

@@ -1,11 +1,4 @@
 <?php
-/**
- * migrate_passwords.php
- * Seed verisi ile eklenen düz metin şifreleri bcrypt ile hashler.
- * Çalıştırdıktan sonra bu dosyayı silin.
- *
- * Kullanım: http://localhost/minivideo/migrate_passwords.php
- */
 require_once __DIR__ . '/db.php';
 
 $users = [

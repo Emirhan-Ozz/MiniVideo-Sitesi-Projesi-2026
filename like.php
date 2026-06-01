@@ -15,7 +15,6 @@ if ($videoId <= 0) {
     exit;
 }
 
-// Video var mı kontrol et
 $vCheck = $conn->prepare("SELECT VideoID FROM Videos WHERE VideoID = ?");
 $vCheck->bind_param('i', $videoId);
 $vCheck->execute();
@@ -27,7 +26,6 @@ if ($vCheck->get_result()->num_rows === 0) {
 $userId  = $_SESSION['user_id'] ?? null;
 $guestIp = $_SERVER['REMOTE_ADDR'];
 
-// Daha önce like bırakmış mı?
 if ($userId !== null) {
     $check = $conn->prepare("SELECT LikeID FROM Likes WHERE VideoID = ? AND UserID = ?");
     $check->bind_param('ii', $videoId, $userId);
@@ -39,7 +37,6 @@ $check->execute();
 $existing = $check->get_result()->fetch_assoc();
 
 if ($existing) {
-    // Toggle: like varsa kaldır
     $del = $conn->prepare("DELETE FROM Likes WHERE LikeID = ?");
     $del->bind_param('i', $existing['LikeID']);
     $del->execute();
@@ -57,6 +54,5 @@ if ($existing) {
     $action = 'added';
 }
 
-// Güncel like sayısını döndür
 $count = (int)$conn->query("SELECT COUNT(*) FROM Likes WHERE VideoID = $videoId")->fetch_row()[0];
 echo json_encode(['action' => $action, 'count' => $count]);

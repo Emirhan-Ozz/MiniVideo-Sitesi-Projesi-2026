@@ -8,7 +8,6 @@ if ($id <= 0) {
     exit;
 }
 
-// Video verisini çek
 $stmt = $conn->prepare("
     SELECT v.*, c.CategoryName, u.Username AS UploaderName
     FROM Videos v
@@ -25,7 +24,6 @@ if (!$video) {
     exit;
 }
 
-// Watch_History kaydı ekle + ViewCount artır
 $userId = $_SESSION['user_id'] ?? null;
 if ($userId !== null) {
     $wh = $conn->prepare("INSERT INTO Watch_History (VideoID, UserID) VALUES (?, ?)");
@@ -38,7 +36,6 @@ $wh->execute();
 $conn->query("UPDATE Videos SET ViewCount = ViewCount + 1 WHERE VideoID = $id");
 $video['ViewCount']++;
 
-// Yorum formu POST işleme
 $commentError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $postAction = $_POST['action'];
@@ -83,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Yorumları çek
 $cs2 = $conn->prepare("
     SELECT c.*, u.Username
     FROM Comments c
@@ -95,10 +91,9 @@ $cs2->bind_param('i', $id);
 $cs2->execute();
 $comments = $cs2->get_result()->fetch_all(MYSQLI_ASSOC);
 
-// Like sayısı
+
 $likeCount = (int)$conn->query("SELECT COUNT(*) FROM Likes WHERE VideoID = $id")->fetch_row()[0];
 
-// Kullanıcı favorilere eklemiş mi?
 $isFavorite = false;
 if (isset($_SESSION['user_id'])) {
     $fc = $conn->prepare("SELECT 1 FROM Playlists WHERE UserID = ? AND VideoID = ?");
@@ -125,10 +120,8 @@ include_once __DIR__ . '/header.php';
 
     <div class="row g-4">
 
-        <!-- Sol: Video + İçerik -->
         <div class="col-lg-8">
 
-            <!-- Video Oynatıcı -->
             <div class="video-player-wrapper mb-4">
                 <?php
                     $videoSrc = trim($video['VideoURL'] ?? '');
@@ -154,12 +147,11 @@ include_once __DIR__ . '/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- Başlık -->
+
             <h2 class="fw-bold mb-2">
                 <?= htmlspecialchars($video['Title'], ENT_QUOTES, 'UTF-8') ?>
             </h2>
 
-            <!-- Meta bilgiler -->
             <div class="d-flex flex-wrap gap-3 mb-3 text-muted small align-items-center">
                 <span><i class="bi bi-eye"></i> <?= number_format($video['ViewCount']) ?> izlenme</span>
                 <span><i class="bi bi-person-circle"></i> <?= htmlspecialchars($video['UploaderName'], ENT_QUOTES, 'UTF-8') ?></span>
@@ -171,7 +163,6 @@ include_once __DIR__ . '/header.php';
                 <span><i class="bi bi-calendar3"></i> <?= date('d.m.Y', strtotime($video['CreatedAt'])) ?></span>
             </div>
 
-            <!-- Like + Favori Butonları -->
             <div class="d-flex gap-2 mb-4 flex-wrap align-items-center">
                 <button id="like-btn"
                         class="btn btn-outline-danger"
@@ -191,7 +182,6 @@ include_once __DIR__ . '/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- Açıklama -->
             <?php if (!empty($video['Description'])): ?>
                 <div class="card mb-4 border-0 bg-white shadow-sm">
                     <div class="card-body">
@@ -201,14 +191,12 @@ include_once __DIR__ . '/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Yorumlar Bölümü -->
             <div id="comments">
                 <h5 class="fw-bold mb-3">
                     <i class="bi bi-chat-dots"></i> Yorumlar
                     <span class="text-muted fw-normal fs-6">(<?= count($comments) ?>)</span>
                 </h5>
 
-                <!-- Yorum Formu -->
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <form method="POST" class="mb-4">
                         <input type="hidden" name="action" value="comment">
@@ -236,7 +224,6 @@ include_once __DIR__ . '/header.php';
                     </div>
                 <?php endif; ?>
 
-                <!-- Yorum Listesi -->
                 <?php if (empty($comments)): ?>
                     <p class="text-muted text-center py-4">
                         <i class="bi bi-chat-square-dots" style="font-size:2rem; opacity:.3;"></i><br>
@@ -265,7 +252,6 @@ include_once __DIR__ . '/header.php';
             </div>
         </div>
 
-        <!-- Sağ: Bilgi Kartı -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm sticky-top" style="top:20px;">
                 <div class="card-header bg-dark text-white">

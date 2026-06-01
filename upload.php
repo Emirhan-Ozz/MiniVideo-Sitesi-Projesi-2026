@@ -58,7 +58,6 @@ function save_thumbnail_upload_or_generated(?array $thumbFile, string $generated
         }
     }
 
-    // Thumbnail seçilmediyse tarayıcıda üretilen ilk kareyi kaydet
     if ($generatedData !== '' && preg_match('/^data:image\/(jpeg|jpg|png|webp);base64,/', $generatedData)) {
         $data = preg_replace('/^data:image\/(jpeg|jpg|png|webp);base64,/', '', $generatedData);
         $binary = base64_decode($data, true);

@@ -2,14 +2,11 @@
 require_once __DIR__ . '/db.php';
 include_once __DIR__ . '/header.php';
 
-// Kategorileri çek
 $catResult = $conn->query("SELECT * FROM Categories ORDER BY CategoryName");
 $categories = $catResult->fetch_all(MYSQLI_ASSOC);
 
-// Kategori filtresi
 $selectedCat = isset($_GET['category']) ? (int)$_GET['category'] : 0;
 
-// Videoları çek (like sayısı alt sorgu ile)
 if ($selectedCat > 0) {
     $stmt = $conn->prepare("
         SELECT v.*, c.CategoryName, u.Username,
@@ -38,7 +35,7 @@ if ($selectedCat > 0) {
 
 <div class="container mt-4">
 
-    <!-- Başlık ve Filtre -->
+    
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <h1 class="page-title mb-0">
             <i class="bi bi-collection-play text-danger"></i> Videolar
@@ -62,7 +59,7 @@ if ($selectedCat > 0) {
         </form>
     </div>
 
-    <!-- Video Kartları -->
+
     <?php if (empty($videos)): ?>
         <div class="text-center py-5 text-muted">
             <i class="bi bi-camera-video-off" style="font-size:3.5rem; opacity:0.4;"></i>

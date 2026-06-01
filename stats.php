@@ -2,7 +2,7 @@
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/admin_auth.php';
 
-// Video başına toplam izlenme sayısı (Watch_History'den)
+
 $viewStats = $conn->query("
     SELECT v.VideoID, v.Title, v.ViewCount,
            COUNT(wh.HistoryID) AS WatchCount
@@ -12,7 +12,7 @@ $viewStats = $conn->query("
     ORDER BY WatchCount DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// Son 50 izlenme kaydı (kullanıcı + ziyaretçi)
+
 $recentViews = $conn->query("
     SELECT v.Title, u.Username, wh.WatchedAt, wh.VideoID
     FROM Watch_History wh
@@ -22,7 +22,7 @@ $recentViews = $conn->query("
     LIMIT 50
 ")->fetch_all(MYSQLI_ASSOC);
 
-// Like istatistikleri (video başına)
+
 $likeStats = $conn->query("
     SELECT v.VideoID, v.Title, COUNT(l.LikeID) AS LikeCount
     FROM Videos v
@@ -31,7 +31,7 @@ $likeStats = $conn->query("
     ORDER BY LikeCount DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// Toplam istatistikler
+
 $totals = $conn->query("
     SELECT
         (SELECT COUNT(*) FROM Videos)        AS total_videos,
@@ -44,7 +44,7 @@ $totals = $conn->query("
 include_once __DIR__ . '/admin_header.php';
 ?>
 
-<!-- Özet Kartlar -->
+
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-4 col-lg-2">
         <div class="card text-center border-0 shadow-sm">
@@ -90,7 +90,6 @@ include_once __DIR__ . '/admin_header.php';
 
 <div class="row g-4">
 
-    <!-- Video Başına İzlenme -->
     <div class="col-lg-6">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white">
@@ -135,7 +134,6 @@ include_once __DIR__ . '/admin_header.php';
         </div>
     </div>
 
-    <!-- Video Başına Beğeni -->
     <div class="col-lg-6">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white">
@@ -180,7 +178,6 @@ include_once __DIR__ . '/admin_header.php';
         </div>
     </div>
 
-    <!-- Son 50 İzlenme Kaydı -->
     <div class="col-12">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white">
@@ -238,5 +235,5 @@ include_once __DIR__ . '/admin_header.php';
 
 </div>
 
-</div><!-- /container-fluid from admin_header.php -->
+</div>
 <?php include_once __DIR__ . '/footer.php'; ?>
